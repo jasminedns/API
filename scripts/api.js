@@ -28,6 +28,7 @@ $( () => {
     }
 
     $(".search-top5__window").on("click", () => {
+        
         getGames();
     });
 
