@@ -150,3 +150,7 @@ main h2 {
 .game__pic--text {
     text-align: center;
 }
+
+.hidden {
+    display: none;
+}
