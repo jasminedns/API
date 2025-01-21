@@ -133,7 +133,8 @@ main h2 {
     display: flex;
 }
 
-.search__results {
+.search__results, 
+.search__allgames {
     align-items: center;
     display: flex;
     flex-direction: column;
@@ -180,7 +181,8 @@ main h2 {
         font-size: 0.8rem;
     }
 
-    .search__results {
+    .search__results, 
+    .search__allgames {
         width: 100%;
     }
 }

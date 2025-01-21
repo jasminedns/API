@@ -8,7 +8,6 @@ $( () => {
 
     const getGames = async () => { 
         allGames.length = 0;
-        games = 0;
 
         for (let page = 1; page <= 20; page++) { 
 
