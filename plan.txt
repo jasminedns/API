@@ -7,10 +7,10 @@
 
 > G Requirements:
 
-    -Connect to an API in a user fired event
-    -Make a request for data
-    -Handle the returned data in an efficient manner
-    -Display more than one property of the returned data on the page
+    -DONE Connect to an API in a user fired event
+    -DONE Make a request for data
+    -DONE Handle the returned data in an efficient manner
+    -DONE Display more than one property of the returned data on the page
     -The page must be responsive
 
 > VG Requirements:
@@ -18,8 +18,8 @@
     -Have correct error handling when fetching the data
     -Append arguments to the request
     -Multiple calls to the API - eg have a input field that will generate different arguments and a button that fires the request
-    -Semantic code
-    -A consistent code style
+    -DONE Semantic code
+    -DONE A consistent code style
 
 > Plan: 
     -Build a videogame database

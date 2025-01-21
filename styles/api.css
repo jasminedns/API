@@ -87,7 +87,6 @@ main h2 {
     flex-direction: row;
     height: 250px; /* provisional */
     justify-content: center;
-    width: 100%;
 }
 
 .window {
@@ -124,6 +123,7 @@ main h2 {
     font-weight: 900;
     margin: 16px 8px;
     padding: 8px;
+    text-align: center;
     text-transform: uppercase;
 }
 
@@ -153,4 +153,34 @@ main h2 {
 
 .hidden {
     display: none;
+}
+
+@media screen and (max-width: 767px){
+    main {
+        justify-content: start;
+    }
+
+    main h2 {
+        margin: 18px 18px;
+    }
+
+    .main-searches {
+        height: 150px;
+    }
+
+    .window {
+        width: 40%;
+    }
+
+    .window:hover {
+        align-content: center;
+    }
+
+    .label {
+        font-size: 0.8rem;
+    }
+
+    .search__results {
+        width: 100%;
+    }
 }

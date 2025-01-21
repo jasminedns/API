@@ -21,13 +21,27 @@ $( () => {
         console.log(allGames)
     }
 
+    const searchGames = async (query) => {
+        await getGames();
+        const userGame = allGames.filter(game => game.name && game.name.toLowerCase().includes(query.toLowerCase()))
+        $(".search__allgames").show();
+        $(".search__results").hide();
+        $(".search__allgames").empty();
+
+        userGame.forEach(game => {
+            $(".search__allgames").append(`<img class="game__pic--img" src="${game.background_image}"> <p class="game__pic--text">${game.name}<br>`)
+        })
+    }
+
     const top5 = async () => {
         await getGames();
 
         allGames.sort((a, b) => b.rating - a.rating);
         let top5Games = allGames.slice(0, 5);
-
+        $(".search__allgames").hide();
+        $(".search__results").show();
         $(".search__results").empty();
+        
 
         top5Games.forEach(game => {
             $(".search__results").append(`<img class="game__pic--img" src="${game.background_image}"> <p class="game__pic--text">${game.name}<br>Rating: ${game.rating}<br></p>`)
@@ -39,7 +53,8 @@ $( () => {
 
         allGames.sort((a, b) => new Date(b.released) - new Date(a.released));
         let newestGames = allGames.slice(0,5);
-
+        $(".search__allgames").hide();
+        $(".search__results").show();
         $(".search__results").empty();
 
         newestGames.forEach(game => {
@@ -56,6 +71,12 @@ $( () => {
     $(".search-newreleases__window").on("click", () => {
         $(".search__results--container").toggleClass("hidden")
         newGames();
+    })
+
+    $(".searchbar-button").on("click", () => {
+        const query = $(".searchbar").val();
+        $(".search__results--container").toggleClass("hidden")
+        searchGames(query);
     })
 
 });
