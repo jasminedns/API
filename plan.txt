@@ -11,11 +11,11 @@
     -DONE Make a request for data
     -DONE Handle the returned data in an efficient manner
     -DONE Display more than one property of the returned data on the page
-    -The page must be responsive
+    -DONE The page must be responsive
 
 > VG Requirements:
 
-    -Have correct error handling when fetching the data
+    -DONE Have correct error handling when fetching the data
     -Append arguments to the request
     -Multiple calls to the API - eg have a input field that will generate different arguments and a button that fires the request
     -DONE Semantic code

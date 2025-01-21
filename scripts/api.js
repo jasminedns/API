@@ -10,12 +10,19 @@ $( () => {
         allGames.length = 0;
 
         for (let page = 1; page <= 20; page++) { 
-
-            let response = await fetch(`${API_ENDPOINT}key=${apiKey}&page=${page}`); 
-            let data = await response.json();
-            let games = data.results;
-            allGames = allGames.concat(games);
-
+            try {
+                let response = await fetch(`${API_ENDPOINT}key=${apiKey}&page=${page}`); 
+                
+                if(!response.ok) {
+                    throw new Error(`Error! status of the error: ${response.status}`);
+                }
+                
+                let data = await response.json();
+                let games = data.results;
+                allGames = allGames.concat(games);
+            } catch (error) {
+                throw new error(`There must have been an error. Sorry for the inconvinience. Error: ${error}`)
+            }
         } 
         console.log(allGames)
     }
@@ -27,9 +34,13 @@ $( () => {
         $(".search__results").hide();
         $(".search__allgames").empty();
 
-        userGame.forEach(game => {
-            $(".search__allgames").append(`<img class="game__pic--img" src="${game.background_image}"> <p class="game__pic--text">${game.name}<br>`)
-        })
+        if(userGame.length===0) {
+            $(".search__allgames").append(`<p>No game found with that name</p>`)
+        } else {
+            userGame.forEach(game => {
+                $(".search__allgames").append(`<img class="game__pic--img" src="${game.background_image}"> <p class="game__pic--text">${game.name}<br>`)
+            })
+        }
     }
 
     const top5 = async () => {
