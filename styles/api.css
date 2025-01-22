@@ -152,10 +152,6 @@ main h2 {
     text-align: center;
 }
 
-.hidden {
-    display: none;
-}
-
 @media screen and (max-width: 767px){
     main {
         justify-content: start;

@@ -1,6 +1,8 @@
 $( () => { 
 
     let allGames = [];
+    const searchAllGames = $(".search__allgames");
+    const searchResults = $(".search__results");
 
 
     const API_ENDPOINT = "https://api.rawg.io/api/games?";
@@ -9,7 +11,7 @@ $( () => {
     const getGames = async () => { 
         allGames.length = 0;
 
-        for (let page = 1; page <= 20; page++) { 
+        for (let page = 1; page <= 50; page++) { 
             try {
                 let response = await fetch(`${API_ENDPOINT}key=${apiKey}&page=${page}`); 
                 
@@ -30,15 +32,16 @@ $( () => {
     const searchGames = async (query) => {
         await getGames();
         const userGame = allGames.filter(game => game.name && game.name.toLowerCase().includes(query.toLowerCase()))
-        $(".search__allgames").show();
-        $(".search__results").hide();
-        $(".search__allgames").empty();
+        searchAllGames.show();
+        searchAllGames.empty();
+
+        searchResults.hide();
 
         if(userGame.length===0) {
-            $(".search__allgames").append(`<p>No game found with that name</p>`)
+            searchAllGames.append(`<p>No game found with that name</p>`)
         } else {
             userGame.forEach(game => {
-                $(".search__allgames").append(`<img class="game__pic--img" src="${game.background_image}"> <p class="game__pic--text">${game.name}<br>`)
+                searchAllGames.append(`<img class="game__pic--img" src="${game.background_image}"> <p class="game__pic--text">${game.name}<br>`)
             })
         }
     }
@@ -48,13 +51,13 @@ $( () => {
 
         allGames.sort((a, b) => b.rating - a.rating);
         let top5Games = allGames.slice(0, 5);
-        $(".search__allgames").hide();
-        $(".search__results").show();
-        $(".search__results").empty();
+        searchAllGames.hide();
+        searchResults.show();
+        searchResults.empty();
         
 
         top5Games.forEach(game => {
-            $(".search__results").append(`<img class="game__pic--img" src="${game.background_image}"> <p class="game__pic--text">${game.name}<br>Rating: ${game.rating}<br></p>`)
+            searchResults.append(`<img class="game__pic--img" src="${game.background_image}"> <p class="game__pic--text">${game.name}<br>Rating: ${game.rating}<br></p>`)
         });
     }
 
@@ -63,23 +66,21 @@ $( () => {
 
         allGames.sort((a, b) => new Date(b.released) - new Date(a.released));
         let newestGames = allGames.slice(0,5);
-        $(".search__allgames").hide();
-        $(".search__results").show();
-        $(".search__results").empty();
+        searchAllGames.hide();
+        searchResults.show();
+        searchResults.empty();
 
         newestGames.forEach(game => {
-            $(".search__results").append(`<img class="game__pic--img" src="${game.background_image}"> <p class="game__pic--text">${game.name}<br>Released: ${game.released}<br></p>`) 
+            searchResults.append(`<img class="game__pic--img" src="${game.background_image}"> <p class="game__pic--text">${game.name}<br>Released: ${game.released}<br></p>`) 
         })
     }
 
 
     $(".search-top5__window").on("click", () => {
-        $(".search__results").toggleClass("hidden")
         top5();
     });
 
     $(".search-newreleases__window").on("click", () => {
-        $(".search__results").toggleClass("hidden")
         newGames();
     })
 
