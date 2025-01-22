@@ -74,18 +74,17 @@ $( () => {
 
 
     $(".search-top5__window").on("click", () => {
-        $(".search__results--container").toggleClass("hidden")
+        $(".search__results").toggleClass("hidden")
         top5();
     });
 
     $(".search-newreleases__window").on("click", () => {
-        $(".search__results--container").toggleClass("hidden")
+        $(".search__results").toggleClass("hidden")
         newGames();
     })
 
     $(".searchbar-button").on("click", () => {
         const query = $(".searchbar").val();
-        $(".search__results--container").toggleClass("hidden")
         searchGames(query);
     })
 
