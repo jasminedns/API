@@ -4,7 +4,6 @@ $( () => {
     const searchAllGames = $(".search__allgames");
     const searchResults = $(".search__results");
 
-
     const API_ENDPOINT = "https://api.rawg.io/api/games?";
     const apiKey = "f64cb459141649f18772e0841a1ca355";
 
@@ -41,10 +40,14 @@ $( () => {
         searchResults.hide();
 
         if(userGame.length===0) {
-            searchAllGames.append(`<p>No game found with that name</p>`)
+            searchAllGames.append(`<p>No game found</p>`)
         } else {
             userGame.forEach(game => {
-                searchAllGames.append(`<img class="game__pic--img" src="${game.background_image}"> <p class="game__pic--text">${game.name}<br>`)
+                searchAllGames.append(
+                    `<div class="game__pic--container">
+                    <img class="game__pic--img" src="${game.background_image}">
+                    <p class="game__pic--text">${game.name}</p></div>`
+                )
             })
         }
     }
@@ -60,7 +63,10 @@ $( () => {
         
 
         top5Games.forEach(game => {
-            searchResults.append(`<img class="game__pic--img" src="${game.background_image}"> <p class="game__pic--text">${game.name}<br>Rating: ${game.rating}<br></p>`)
+            searchResults.append(
+                `<img class="game__pic--img" src="${game.background_image}">
+                <p class="game__pic--text">${game.name}<br>Rating: ${game.rating}<br></p>`
+            )
         });
     }
 
@@ -74,7 +80,9 @@ $( () => {
         searchResults.empty();
 
         newestGames.forEach(game => {
-            searchResults.append(`<img class="game__pic--img" src="${game.background_image}"> <p class="game__pic--text">${game.name}<br>Released: ${game.released}<br></p>`) 
+            searchResults.append(
+                `<img class="game__pic--img" src="${game.background_image}">
+                <p class="game__pic--text">${game.name}<br>Released: ${game.released}<br></p>`) 
         })
     }
 

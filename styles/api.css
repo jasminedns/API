@@ -138,8 +138,7 @@ main h2 {
     display: flex;
 }
 
-.search__results, 
-.search__allgames {
+.search__results {
     align-items: center;
     display: flex;
     flex-direction: column;
@@ -147,8 +146,28 @@ main h2 {
     width: 60%;
 }
 
-.game__pic--img {
+.search__results > img {
     height: auto;
+    margin: 24px 24px 8px 24px;
+    width: 70%;
+}
+
+.search__allgames {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.game__pic--container {
+    align-content: center;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.game__pic--container > img {
+    height: 186px;
     margin: 24px 24px 8px 24px;
     width: 70%;
 }
