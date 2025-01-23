@@ -127,6 +127,11 @@ main h2 {
     text-transform: uppercase;
 }
 
+.search__results--loading {
+    display: none;
+    text-align: center;
+}
+
 .search__results--container {
     justify-content: center;
     margin-top: 16px;

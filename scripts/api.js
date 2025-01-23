@@ -11,6 +11,8 @@ $( () => {
     const getGames = async () => { 
         allGames.length = 0;
 
+        $(".search__results--loading").show();
+
         for (let page = 1; page <= 50; page++) { 
             try {
                 let response = await fetch(`${API_ENDPOINT}key=${apiKey}&page=${page}`); 
@@ -27,6 +29,7 @@ $( () => {
             }
         } 
         console.log(allGames)
+        $(".search__results--loading").hide();
     }
 
     const searchGames = async (query) => {
