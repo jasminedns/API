@@ -65,7 +65,7 @@ main h2 {
 .searchbar-button {
     border: 1px solid #2A475E;
     border-radius: 4px;
-    box-shadow: 1px 1px 0px rgba( 255, 255, 255, 0.2);
+    box-shadow: 2px 2px 0px rgba( 6, 1, 1, 33%);
     color: #dcdedf;
     font-size: 16px;
     margin: 8px 16px;
@@ -82,10 +82,14 @@ main h2 {
     cursor: pointer;
 }
 
+.searchbar-button:hover {
+    background-color: #224058;
+}
+
 .main-searches {
     display: flex;
     flex-direction: row;
-    height: 250px; /* provisional */
+    height: 200px;
     justify-content: center;
 }
 
@@ -99,12 +103,17 @@ main h2 {
     height: auto;
     justify-content: center;
     margin: 16px 32px;
-    transition: align-content 0.3s ease-out;
+    transition: transform 0.3s ease-out;
     width: 20%;
 }
 
 .window:hover {
-    align-content: end;
+    transform: scale(1.05);
+}
+
+.window:hover > .label {
+    background-color: #417a9b;
+    color: #fff;
 }
 
 .search-top5__window {
@@ -116,7 +125,7 @@ main h2 {
 }
 
 .label {
-    background-color: #e5e5e5;
+    background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
     color: #417a9b;
@@ -148,7 +157,7 @@ main h2 {
 
 .search__results > img {
     height: auto;
-    margin: 24px 24px 8px 24px;
+    margin: auto;
     width: 70%;
 }
 
@@ -176,7 +185,7 @@ main h2 {
     text-align: center;
 }
 
-@media screen and (max-width: 767px){
+@media screen and (max-width: 1025px){
     main {
         justify-content: start;
     }
@@ -190,7 +199,7 @@ main h2 {
     }
 
     .window {
-        width: 40%;
+        width: 25%;
     }
 
     .window:hover {
@@ -204,5 +213,30 @@ main h2 {
     .search__results, 
     .search__allgames {
         width: 100%;
+    }
+
+    .search__allgames {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+
+    .game__pic--container > img {
+        height: 200px;
+        width: 90%;
+    }
+
+    .game__pic--text {
+        margin: 8px;
+    }
+}
+
+@media screen and (max-width: 767px){
+    .window {
+        width: 30%;
+    }
+
+    .search__allgames {
+        grid-template-columns: 1fr;
+        gap: 8px;
     }
 }

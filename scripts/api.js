@@ -13,6 +13,7 @@ $( () => {
         $(".search__results--loading").show();
 
         for (let page = 1; page <= 50; page++) { 
+
             try {
                 let response = await fetch(`${API_ENDPOINT}key=${apiKey}&page=${page}`); 
                 
@@ -23,6 +24,7 @@ $( () => {
                 let data = await response.json();
                 let games = data.results;
                 allGames = allGames.concat(games);
+
             } catch (error) {
                 throw new error(`There must have been an error. Sorry for the inconvinience. Error: ${error}`)
             }
@@ -41,6 +43,7 @@ $( () => {
 
         if(userGame.length===0) {
             searchAllGames.append(`<p>No game found</p>`)
+
         } else {
             userGame.forEach(game => {
                 searchAllGames.append(
@@ -57,11 +60,11 @@ $( () => {
 
         allGames.sort((a, b) => b.rating - a.rating);
         let top5Games = allGames.slice(0, 5);
+
         searchAllGames.hide();
         searchResults.show();
         searchResults.empty();
         
-
         top5Games.forEach(game => {
             searchResults.append(
                 `<img class="game__pic--img" src="${game.background_image}">
@@ -75,6 +78,7 @@ $( () => {
 
         allGames.sort((a, b) => new Date(b.released) - new Date(a.released));
         let newestGames = allGames.slice(0,5);
+
         searchAllGames.hide();
         searchResults.show();
         searchResults.empty();
@@ -82,10 +86,10 @@ $( () => {
         newestGames.forEach(game => {
             searchResults.append(
                 `<img class="game__pic--img" src="${game.background_image}">
-                <p class="game__pic--text">${game.name}<br>Released: ${game.released}<br></p>`) 
+                <p class="game__pic--text">${game.name}<br>Released: ${game.released}<br></p>`
+            ) 
         })
     }
-
 
     $(".search-top5__window").on("click", () => {
         top5();
