@@ -1,6 +1,7 @@
 $( () => { 
 
     let allGames = [];
+    let allGamesFetched = false;
     const searchAllGames = $(".search__allgames");
     const searchResults = $(".search__results");
 
@@ -8,12 +9,14 @@ $( () => {
     const apiKey = "f64cb459141649f18772e0841a1ca355";
 
     const getGames = async () => { 
-        allGames.length = 0;
+        if(allGamesFetched) {
+            return;
+        }
 
+        allGames.length = 0;
         $(".search__results--loading").show();
 
         for (let page = 1; page <= 50; page++) { 
-
             try {
                 let response = await fetch(`${API_ENDPOINT}key=${apiKey}&page=${page}`); 
                 
@@ -28,8 +31,8 @@ $( () => {
             } catch (error) {
                 throw new error(`There must have been an error. Sorry for the inconvinience. Error: ${error}`)
             }
-        } 
-        console.log(allGames)
+        }
+        allGamesFetched = true;
         $(".search__results--loading").hide();
     }
 
