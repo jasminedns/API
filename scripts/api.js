@@ -4,6 +4,7 @@ $( () => {
     let allGamesFetched = false;
     const searchAllGames = $(".search__allgames");
     const searchResults = $(".search__results");
+    const searchSaved = $(".search__saved");
 
     const API_ENDPOINT = "https://api.rawg.io/api/games?";
     const apiKey = "f64cb459141649f18772e0841a1ca355";
@@ -29,11 +30,33 @@ $( () => {
                 allGames = allGames.concat(games);
 
             } catch (error) {
-                throw new error(`There must have been an error. Sorry for the inconvinience. Error: ${error}`)
+                throw new error(`There must have been an error. Sorry for the inconvenience. Error: ${error}`)
             }
         }
         allGamesFetched = true;
         $(".search__results--loading").hide();
+    }
+
+    function saveGame(game) {
+        localStorage.setItem('savedGame', JSON.stringify(game));
+        updateSavedWindow();
+    }
+    
+    function updateSavedWindow() {
+        const savedWindow = document.querySelector('.search-saved__window');
+        const savedGame = JSON.parse(localStorage.getItem('savedGame'));
+    
+        if (savedGame) {
+            savedWindow.innerHTML = `
+                <h3>Saved Game</h3>
+                <p>${savedGame.name}</p>
+            `;
+            savedWindow.style.backgroundImage = `url(${savedGame.background_image})`;
+            savedWindow.style.backgroundSize = 'cover';
+        savedWindow.style.backgroundPosition = 'center';
+        } else {
+            savedWindow.innerHTML = '<p>No game saved</p>';
+        }
     }
 
     const searchGames = async (query) => {
@@ -43,18 +66,26 @@ $( () => {
         searchAllGames.empty();
 
         searchResults.hide();
+        searchSaved.hide();
 
         if(userGame.length===0) {
             searchAllGames.append(`<p>No game found</p>`)
 
         } else {
             userGame.forEach(game => {
-                searchAllGames.append(
-                    `<div class="game__pic--container">
-                    <img class="game__pic--img" src="${game.background_image}">
-                    <p class="game__pic--text">${game.name}</p></div>`
-                )
-            })
+                const gameElement = $(`
+                    <div class="game__pic--container">
+                        <img class="game__pic--img" src="${game.background_image}">
+                        <p class="game__pic--text">${game.name}<br></p>
+                        <button class="game__pic--save">Save</button>
+                    </div>
+                `);
+                searchAllGames.append(gameElement);
+    
+                gameElement.find('.game__pic--save').on('click', () => {
+                    saveGame(game);
+                });
+            });
         }
     }
 
@@ -65,14 +96,23 @@ $( () => {
         let top5Games = allGames.slice(0, 5);
 
         searchAllGames.hide();
+        searchSaved.hide();
         searchResults.show();
         searchResults.empty();
         
         top5Games.forEach(game => {
-            searchResults.append(
-                `<img class="game__pic--img" src="${game.background_image}">
-                <p class="game__pic--text">${game.name}<br>Rating: ${game.rating}<br></p>`
-            )
+            const gameElement = $(`
+                <div class="game__pic--container">
+                    <img class="game__pic--img" src="${game.background_image}">
+                    <p class="game__pic--text">${game.name}<br>Released: ${game.rating}<br></p>
+                    <button class="game__pic--save">Save</button>
+                </div>
+            `);
+            searchResults.append(gameElement);
+
+            gameElement.find('.game__pic--save').on('click', () => {
+                saveGame(game);
+            });
         });
     }
 
@@ -83,15 +123,24 @@ $( () => {
         let newestGames = allGames.slice(0,5);
 
         searchAllGames.hide();
+        searchSaved.hide();
         searchResults.show();
         searchResults.empty();
 
         newestGames.forEach(game => {
-            searchResults.append(
-                `<img class="game__pic--img" src="${game.background_image}">
-                <p class="game__pic--text">${game.name}<br>Released: ${game.released}<br></p>`
-            ) 
-        })
+            const gameElement = $(`
+                <div class="game__pic--container">
+                    <img class="game__pic--img" src="${game.background_image}">
+                    <p class="game__pic--text">${game.name}<br>Released: ${game.released}<br></p>
+                    <button class="game__pic--save">Save</button>
+                </div>
+            `);
+            searchResults.append(gameElement);
+
+            gameElement.find('.game__pic--save').on('click', () => {
+                saveGame(game);
+            });
+        });
     }
 
     $(".search-top5__window").on("click", () => {
@@ -101,6 +150,10 @@ $( () => {
     $(".search-newreleases__window").on("click", () => {
         newGames();
     })
+
+    $(".search-saved__window").on("click", () => {
+        updateSavedWindow();
+    });
 
     $(".searchbar-button").on("click", () => {
         const query = $(".searchbar").val();
