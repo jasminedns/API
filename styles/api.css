@@ -62,7 +62,8 @@ main h2 {
 }
 
 .searchbar,
-.searchbar-button {
+.searchbar-button,
+.game__pic--save {
     border: 1px solid #2A475E;
     border-radius: 4px;
     box-shadow: 2px 2px 0px rgba( 6, 1, 1, 33%);
@@ -77,12 +78,14 @@ main h2 {
     width: 50%;
 }
 
-.searchbar-button {
+.searchbar-button,
+.game__pic--save {
     background-color: #2A475E;
     cursor: pointer;
 }
 
-.searchbar-button:hover {
+.searchbar-button:hover,
+.game__pic--save:hover {
     background-color: #224058;
 }
 
@@ -95,6 +98,8 @@ main h2 {
 
 .window {
     align-content: center;
+    background-size: cover;
+    background-position: center;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
     cursor: pointer;
@@ -126,10 +131,11 @@ main h2 {
 
 .search-saved__window {
     background-image: url(../images/top5.png);
+    
 }
 
-.label {
-    background-color: #fff;
+.label, 
+.search-saved__title {
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
     color: #417a9b;
@@ -140,6 +146,10 @@ main h2 {
     text-transform: uppercase;
 }
 
+.label {
+    background-color: #fff;
+}
+
 .search__results--loading {
     display: none;
     text-align: center;
@@ -148,14 +158,13 @@ main h2 {
 .search__results--container {
     display: flex;
     justify-content: center;
-    margin-top: 16px;
+    margin: 16px 0px;
 }
 
 .search__results {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
     width: 60%;
 }
 
@@ -187,6 +196,15 @@ main h2 {
 
 .game__pic--text {
     text-align: center;
+}
+
+.game__pic--save {
+    margin: auto;
+    width: 25%;
+}
+
+.search-saved__title {
+    background-color: #ffffffb7;
 }
 
 @media screen and (max-width: 1025px){
@@ -235,8 +253,21 @@ main h2 {
 }
 
 @media screen and (max-width: 767px){
+    .main-searches {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        justify-content: center;
+    }
+
     .window {
-        width: 30%;
+        width: calc(92% - 32px);
+    }
+
+    .search__results {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
 
     .search__allgames {

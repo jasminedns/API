@@ -47,13 +47,8 @@ $( () => {
         const savedGame = JSON.parse(localStorage.getItem('savedGame'));
     
         if (savedGame) {
-            savedWindow.innerHTML = `
-                <h3>Saved Game</h3>
-                <p>${savedGame.name}</p>
-            `;
+            savedWindow.innerHTML = `<p class="search-saved__title">${savedGame.name}</p>`;
             savedWindow.style.backgroundImage = `url(${savedGame.background_image})`;
-            savedWindow.style.backgroundSize = 'cover';
-        savedWindow.style.backgroundPosition = 'center';
         } else {
             savedWindow.innerHTML = '<p>No game saved</p>';
         }
