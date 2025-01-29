@@ -37,20 +37,20 @@ $( () => {
         $(".search__results--loading").hide();
     }
 
-    function saveGame(game) {
-        localStorage.setItem('savedGame', JSON.stringify(game));
+    const saveGame = (game) => {
+        localStorage.setItem("savedGame", JSON.stringify(game));
         updateSavedWindow();
     }
     
     function updateSavedWindow() {
-        const savedWindow = document.querySelector('.search-saved__window');
-        const savedGame = JSON.parse(localStorage.getItem('savedGame'));
+        const savedWindow = document.querySelector(".search-saved__window");
+        const savedGame = JSON.parse(localStorage.getItem("savedGame"));
     
         if (savedGame) {
             savedWindow.innerHTML = `<p class="search-saved__title">${savedGame.name}</p>`;
             savedWindow.style.backgroundImage = `url(${savedGame.background_image})`;
         } else {
-            savedWindow.innerHTML = '<p>No game saved</p>';
+            savedWindow.innerHTML = "<p>No game saved</p>";
         }
     }
 
@@ -68,19 +68,20 @@ $( () => {
 
         } else {
             userGame.forEach(game => {
-                const gameElement = $(`
-                    <div class="game__pic--container">
+                const gameItem = $(
+                    `<div class="game__pic--container">
                         <img class="game__pic--img" src="${game.background_image}">
                         <p class="game__pic--text">${game.name}<br></p>
                         <button class="game__pic--save">Save</button>
-                    </div>
-                `);
-                searchAllGames.append(gameElement);
+                    </div>`
+                )
+
+                searchAllGames.append(gameItem);
     
-                gameElement.find('.game__pic--save').on('click', () => {
+                gameItem.find(".game__pic--save").on("click", () => {
                     saveGame(game);
-                });
-            });
+                })
+            })
         }
     }
 
@@ -96,19 +97,20 @@ $( () => {
         searchResults.empty();
         
         top5Games.forEach(game => {
-            const gameElement = $(`
-                <div class="game__pic--container">
+            const gameItem = $(
+                `<div class="game__pic--container">
                     <img class="game__pic--img" src="${game.background_image}">
                     <p class="game__pic--text">${game.name}<br>Released: ${game.rating}<br></p>
                     <button class="game__pic--save">Save</button>
-                </div>
-            `);
-            searchResults.append(gameElement);
+                </div>`
+            )
 
-            gameElement.find('.game__pic--save').on('click', () => {
-                saveGame(game);
-            });
-        });
+            searchResults.append(gameItem);
+
+            gameItem.find(".game__pic--save").on("click", () => {
+                saveGame(game)
+            })
+        })
     }
 
     const newGames = async () => {
@@ -123,24 +125,25 @@ $( () => {
         searchResults.empty();
 
         newestGames.forEach(game => {
-            const gameElement = $(`
-                <div class="game__pic--container">
+            const gameItem = $(
+                `<div class="game__pic--container">
                     <img class="game__pic--img" src="${game.background_image}">
                     <p class="game__pic--text">${game.name}<br>Released: ${game.released}<br></p>
                     <button class="game__pic--save">Save</button>
-                </div>
-            `);
-            searchResults.append(gameElement);
+                </div>`
+            )
 
-            gameElement.find('.game__pic--save').on('click', () => {
-                saveGame(game);
-            });
-        });
+            searchResults.append(gameItem);
+
+            gameItem.find(".game__pic--save").on("click", () => {
+                saveGame(game)
+            })
+        })
     }
 
     $(".search-top5__window").on("click", () => {
         top5();
-    });
+    })
 
     $(".search-newreleases__window").on("click", () => {
         newGames();
@@ -148,7 +151,7 @@ $( () => {
 
     $(".search-saved__window").on("click", () => {
         updateSavedWindow();
-    });
+    })
 
     $(".searchbar-button").on("click", () => {
         const query = $(".searchbar").val();

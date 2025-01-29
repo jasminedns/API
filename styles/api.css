@@ -89,7 +89,7 @@ main h2 {
     background-color: #224058;
 }
 
-.main-searches {
+.main__windows--container {
     display: flex;
     flex-direction: row;
     height: 200px;
@@ -131,7 +131,6 @@ main h2 {
 
 .search-saved__window {
     background-image: url(../images/top5.png);
-    
 }
 
 .label, 
@@ -216,7 +215,7 @@ main h2 {
         margin: 18px 18px;
     }
 
-    .main-searches {
+    .main__windows--container {
         height: 150px;
     }
 
@@ -253,7 +252,7 @@ main h2 {
 }
 
 @media screen and (max-width: 767px){
-    .main-searches {
+    .main__windows--container {
         display: flex;
         flex-direction: column;
         height: auto;
