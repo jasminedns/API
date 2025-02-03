@@ -121,8 +121,8 @@ main h2 {
     color: #fff;
 }
 
-.search-top5__window {
-    background-image: url(../images/top5.png);
+.search-top10__window {
+    background-image: url(../images/top10.png);
 }
 
 .search-newreleases__window {
@@ -130,7 +130,7 @@ main h2 {
 }
 
 .search-saved__window {
-    background-image: url(../images/top5.png);
+    background-image: url(../images/rpg.jpeg);
 }
 
 .label, 

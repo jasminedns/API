@@ -1,40 +1,17 @@
 $( () => { 
 
-    let allGames = [];
-    let allGamesFetched = false;
     const searchAllGames = $(".search__allgames");
     const searchResults = $(".search__results");
     const searchSaved = $(".search__saved");
 
     const API_ENDPOINT = "https://api.rawg.io/api/games?";
-    const apiKey = "f64cb459141649f18772e0841a1ca355";
+    const apiKey = "efc1b0763920484098f874d0ae1f2829";
 
-    const getGames = async () => { 
-        if(allGamesFetched) {
-            return;
-        }
-
-        allGames.length = 0;
-        $(".search__results--loading").show();
-
-        for (let page = 1; page <= 50; page++) { 
-            try {
-                let response = await fetch(`${API_ENDPOINT}key=${apiKey}&page=${page}`); 
-                
-                if(!response.ok) {
-                    throw new Error(`Error! status of the error: ${response.status}`);
-                }
-                
-                let data = await response.json();
-                let games = data.results;
-                allGames = allGames.concat(games);
-
-            } catch (error) {
-                throw new error(`There must have been an error. Sorry for the inconvenience. Error: ${error}`)
-            }
-        }
-        allGamesFetched = true;
-        $(".search__results--loading").hide();
+    const fetchGames = async (search) => {
+        let response = await fetch(`${API_ENDPOINT}key=${apiKey}${search}`);
+        let data = await response.json();
+        const games = data.results;
+        return games;
     }
 
     const saveGame = (game) => {
@@ -54,95 +31,99 @@ $( () => {
         }
     }
 
-    const searchGames = async (query) => {
-        await getGames();
-        const userGame = allGames.filter(game => game.name && game.name.toLowerCase().includes(query.toLowerCase()))
+    const searchGame = async (search) => {
+        const games = await fetchGames(`&search=${search}`);
         searchAllGames.show();
         searchAllGames.empty();
-
         searchResults.hide();
         searchSaved.hide();
 
-        if(userGame.length===0) {
-            searchAllGames.append(`<p>No game found</p>`)
-
-        } else {
-            userGame.forEach(game => {
-                const gameItem = $(
+        for (let i = 0; i < games.length; i++) { 
+            const gameItem = $(
                     `<div class="game__pic--container">
-                        <img class="game__pic--img" src="${game.background_image}">
-                        <p class="game__pic--text">${game.name}<br></p>
+                        <img class="game__pic--img" src="${games[i].background_image}">
+                        <p class="game__pic--text">${games[i].name}<br></p>
                         <button class="game__pic--save">Save</button>
                     </div>`
-                )
+            );
 
-                searchAllGames.append(gameItem);
-    
-                gameItem.find(".game__pic--save").on("click", () => {
-                    saveGame(game);
-                })
+            searchAllGames.append(gameItem);
+
+            gameItem.find(".game__pic--save").on("click", () => {
+                saveGame(games[i]);
             })
+            
         }
     }
 
-    const top5 = async () => {
-        await getGames();
-
-        allGames.sort((a, b) => b.rating - a.rating);
-        let top5Games = allGames.slice(0, 5);
+    const top10 = async () => {
+        const games = await fetchGames("&metacritic=97,100");
 
         searchAllGames.hide();
         searchSaved.hide();
         searchResults.show();
         searchResults.empty();
-        
-        top5Games.forEach(game => {
-            const gameItem = $(
-                `<div class="game__pic--container">
-                    <img class="game__pic--img" src="${game.background_image}">
-                    <p class="game__pic--text">${game.name}<br>Released: ${game.rating}<br></p>
-                    <button class="game__pic--save">Save</button>
-                </div>`
-            )
 
-            searchResults.append(gameItem);
+        for (let i = 0; i < games.length; i++) { 
+            games.sort((a, b) => b.metacritic - a.metacritic);
 
-            gameItem.find(".game__pic--save").on("click", () => {
-                saveGame(game)
-            })
-        })
+            if (games[i].background_image === null) {
+                searchResults.append(
+                    `<div class="game__pic--container">
+                        <img class="game__pic--img" src="./images/soulcalibur-game-cover-.jpg">
+                        <p class="game__pic--text">${games[i].name}<br>Metacritic: ${games[i].metacritic}<br></p>
+                        <button class="game__pic--save">Save</button>
+                    </div>`
+                )
+            } else {
+                const gameItem = $(
+                    `<div class="game__pic--container">
+                        <img class="game__pic--img" src="${games[i].background_image}">
+                        <p class="game__pic--text">${games[i].name}<br>Metacritic: ${games[i].metacritic}<br></p>
+                        <button class="game__pic--save">Save</button>
+                    </div>`
+                );
+
+                searchResults.append(gameItem);
+
+                gameItem.find(".game__pic--save").on("click", () => {
+                    saveGame(games[i]);
+                })
+            }
+        }
     }
 
     const newGames = async () => {
-        await getGames();
-
-        allGames.sort((a, b) => new Date(b.released) - new Date(a.released));
-        let newestGames = allGames.slice(0,5);
-
+        const games = await fetchGames("&ordering=-released&dates=2025-01-01,2025-02-01");
         searchAllGames.hide();
         searchSaved.hide();
         searchResults.show();
         searchResults.empty();
 
-        newestGames.forEach(game => {
+        for (let i = 0; i < games.length; i++) { 
             const gameItem = $(
-                `<div class="game__pic--container">
-                    <img class="game__pic--img" src="${game.background_image}">
-                    <p class="game__pic--text">${game.name}<br>Released: ${game.released}<br></p>
-                    <button class="game__pic--save">Save</button>
-                </div>`
-            )
+                    `<div class="game__pic--container">
+                        <img class="game__pic--img" src="${games[i].background_image}">
+                        <p class="game__pic--text">${games[i].name}<br>Released: ${games[i].released}<br></p>
+                        <button class="game__pic--save">Save</button>
+                    </div>`
+            );
 
             searchResults.append(gameItem);
 
             gameItem.find(".game__pic--save").on("click", () => {
-                saveGame(game)
+                saveGame(games[i]);
             })
-        })
+        }    
     }
 
-    $(".search-top5__window").on("click", () => {
-        top5();
+    $(".searchbar-button").on("click", () => {
+        const search = $(".searchbar").val();
+        searchGame(search);
+    })
+
+    $(".search-top10__window").on("click", () => {
+        top10();
     })
 
     $(".search-newreleases__window").on("click", () => {
@@ -151,11 +132,6 @@ $( () => {
 
     $(".search-saved__window").on("click", () => {
         updateSavedWindow();
-    })
-
-    $(".searchbar-button").on("click", () => {
-        const query = $(".searchbar").val();
-        searchGames(query);
     })
 
 });
