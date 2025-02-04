@@ -108,11 +108,11 @@ $( () => {
 
         for (let i = 0; i < games.length; i++) { 
             const gameItem = $(
-                    `<div class="game__pic--container">
-                        <img class="game__pic--img" src="${games[i].background_image}">
-                        <p class="game__pic--text">${games[i].name}<br>Released: ${games[i].released}<br></p>
-                        <button class="game__pic--save">Save</button>
-                    </div>`
+                `<div class="game__pic--container">
+                    <img class="game__pic--img" src="${games[i].background_image}">
+                    <p class="game__pic--text">${games[i].name}<br>Released: ${games[i].released}<br></p>
+                    <button class="game__pic--save">Save</button>
+                </div>`
             );
 
             searchResults.append(gameItem);
