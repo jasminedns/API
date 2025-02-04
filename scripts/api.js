@@ -8,10 +8,21 @@ $( () => {
     const apiKey = "efc1b0763920484098f874d0ae1f2829";
 
     const fetchGames = async (search) => {
-        let response = await fetch(`${API_ENDPOINT}key=${apiKey}${search}`);
-        let data = await response.json();
-        const games = data.results;
-        return games;
+        try {
+            let response = await fetch(`${API_ENDPOINT}key=${apiKey}${search}`);
+
+            if(!response.ok) {
+                throw new Error(`Error! status of the error: ${response.status}`);
+            }
+
+            let data = await response.json();
+            const games = data.results;
+            return games;
+            
+        } catch (error) {
+            throw new error(`There must have been an error. Sorry for the inconvenience. Error: ${error}`)
+        }
+        
     }
 
     const saveGame = (game) => {
@@ -39,20 +50,39 @@ $( () => {
         searchSaved.hide();
 
         for (let i = 0; i < games.length; i++) { 
-            const gameItem = $(
+            if (games[i].background_image === null) {
+                const gameItem = $(
+                    `<div class="game__pic--container">
+                        <img class="game__pic--img" src="images/pic-not-found.jpg">
+                        <p class="game__pic--text">${games[i].name}<br></p>
+                        <button class="game__pic--save">Save</button>
+                    </div>`
+                )
+
+                searchAllGames.append(gameItem);
+
+                gameItem.find(".game__pic--save").on("click", () => {
+                    saveGame(games[i]);
+                })
+
+            } else {
+                const gameItem = $(
                     `<div class="game__pic--container">
                         <img class="game__pic--img" src="${games[i].background_image}">
                         <p class="game__pic--text">${games[i].name}<br></p>
                         <button class="game__pic--save">Save</button>
                     </div>`
-            );
+                );
 
-            searchAllGames.append(gameItem);
+                searchAllGames.append(gameItem);
 
-            gameItem.find(".game__pic--save").on("click", () => {
-                saveGame(games[i]);
-            })
+                gameItem.find(".game__pic--save").on("click", () => {
+                    saveGame(games[i]);
+                })
+            }
         }
+
+        console.log(games)
     }
 
     const top10 = async () => {
@@ -69,7 +99,7 @@ $( () => {
             if (games[i].background_image === null) {
                 const gameItem = $(
                     `<div class="game__pic--container">
-                        <img class="game__pic--img" alt="image not found">
+                        <img class="game__pic--img" src="images/pic-not-found.jpg">
                         <p class="game__pic--text">${games[i].name}<br>Metacritic: ${games[i].metacritic}<br></p>
                         <button class="game__pic--save">Save</button>
                     </div>`
@@ -107,19 +137,37 @@ $( () => {
         searchResults.empty();
 
         for (let i = 0; i < games.length; i++) { 
-            const gameItem = $(
-                `<div class="game__pic--container">
-                    <img class="game__pic--img" src="${games[i].background_image}">
-                    <p class="game__pic--text">${games[i].name}<br>Released: ${games[i].released}<br></p>
-                    <button class="game__pic--save">Save</button>
-                </div>`
-            );
+            if (games[i].background_image === null) {
+                const gameItem = $(
+                    `<div class="game__pic--container">
+                        <img class="game__pic--img" src="images/pic-not-found.jpg">
+                        <p class="game__pic--text">${games[i].name}<br>Released: ${games[i].released}<br></p>
+                        <button class="game__pic--save">Save</button>
+                    </div>`
+                );
+    
+                searchResults.append(gameItem);
+    
+                gameItem.find(".game__pic--save").on("click", () => {
+                    saveGame(games[i]);
+                })
 
-            searchResults.append(gameItem);
-
-            gameItem.find(".game__pic--save").on("click", () => {
-                saveGame(games[i]);
-            })
+            } else {
+                const gameItem = $(
+                    `<div class="game__pic--container">
+                        <img class="game__pic--img" src="${games[i].background_image}">
+                        <p class="game__pic--text">${games[i].name}<br>Released: ${games[i].released}<br></p>
+                        <button class="game__pic--save">Save</button>
+                    </div>`
+                );
+    
+                searchResults.append(gameItem);
+    
+                gameItem.find(".game__pic--save").on("click", () => {
+                    saveGame(games[i]);
+                })
+            }
+            
         }    
     }
 
