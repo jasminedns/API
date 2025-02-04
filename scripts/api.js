@@ -52,7 +52,6 @@ $( () => {
             gameItem.find(".game__pic--save").on("click", () => {
                 saveGame(games[i]);
             })
-            
         }
     }
 
@@ -68,13 +67,20 @@ $( () => {
             games.sort((a, b) => b.metacritic - a.metacritic);
 
             if (games[i].background_image === null) {
-                searchResults.append(
+                const gameItem = $(
                     `<div class="game__pic--container">
-                        <img class="game__pic--img" src="./images/soulcalibur-game-cover-.jpg">
+                        <img class="game__pic--img" alt="image not found">
                         <p class="game__pic--text">${games[i].name}<br>Metacritic: ${games[i].metacritic}<br></p>
                         <button class="game__pic--save">Save</button>
                     </div>`
                 )
+
+                searchResults.append(gameItem);
+
+                gameItem.find(".game__pic--save").on("click", () => {
+                    saveGame(games[i]);
+                })
+
             } else {
                 const gameItem = $(
                     `<div class="game__pic--container">
